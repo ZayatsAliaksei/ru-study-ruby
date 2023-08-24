@@ -2,13 +2,27 @@ module Exercise
   module Arrays
     class << self
       def replace(array)
-        array.map { |item| item > 0 ? array.max() : item }
+        array.map { |item| item.positive? ? array.max : item }
       end
 
-      def search(_array, _query)
-        return -1 unless _array.include?(_query)
+      def search(array, key)
+        binary_search_rec(array, key, 0, array.length)
+      end
 
-        _array.bsearch_index {|x| x >= _query}
+      def binary_search_rec(array, key, left, right)
+        return -1 if left >= right
+
+        mid = left + ((right - left) / 2)
+
+        return -(1 + left) if left >= right
+
+        if array[mid] == key
+          mid
+        elsif array[mid] > key
+          binary_search_rec(array, key, left, mid)
+        else
+          binary_search_rec(array, key, mid + 1, right)
+        end
       end
     end
   end
