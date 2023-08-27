@@ -5,11 +5,10 @@ module Exercise
       # film["name"], film["rating_kinopoisk"], film["rating_imdb"],
       # film["genres"], film["year"], film["access_level"], film["country"]
       def rating(films)
-        filtred_ratings = rating_filter(films)
-        filtred_ratings.reduce(:+) / filtred_ratings.length
+        filtered_ratings(films).reduce(:+) / filtered_ratings(films).length
       end
 
-      def rating_filter(films)
+      def filtered_ratings(films)
         films.map do |film|
           rating = film['rating_kinopoisk']
           rating.to_f if film['country'].to_s.split(',').length >= 2 && rating.to_f.positive?
