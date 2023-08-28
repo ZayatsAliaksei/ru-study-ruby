@@ -2,10 +2,11 @@ module Exercise
   module Fp2
     class MyArray < Array
       # Написать свою функцию my_each
-      def my_each
-        for item in self
-          yield(item)
-        end
+      def my_each(index = 0, &block)
+        return self if index >= size
+
+        yield(self[index])
+        my_each(index + 1, &block)
       end
 
       # Написать свою функцию my_map
@@ -24,14 +25,11 @@ module Exercise
       end
 
       # Написать свою функцию my_reduce
-      def my_reduce(initial = nil)
-        accumulator = initial || self[0]
-        index = initial ? 0 : 1
-        while index < length
-          accumulator = yield(accumulator, self[index])
-          index += 1
-        end
-        accumulator
+      def my_reduce(acc = nil, element = 0, &block)
+        return acc if element >= size
+
+        acc = acc.nil? ? self[0] : block.call(acc, self[element])
+        my_reduce(acc, element + 1, &block)
       end
     end
   end
