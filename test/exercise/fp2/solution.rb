@@ -28,13 +28,11 @@ module Exercise
       # Написать свою функцию my_reduce
       def my_reduce(acc = nil, &block)
         return acc unless block_given?
+        return acc if size < 1
 
         acc = acc.nil? ? first : block.call(acc, first)
-        if size > 1
-          rest = MyArray.new(self[1..])
-          acc = rest.my_reduce(acc, &block)
-        end
-        acc
+        rest = MyArray.new(self[1..])
+        rest.my_reduce(acc, &block)
       end
     end
   end
